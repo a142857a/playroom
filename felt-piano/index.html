@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en" data-theme="ebony">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090909">
+  <meta name="description" content="A keyboard music studio with instruments, recording, classical music, and MIDI import.">
+  <title>Felt Studio</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%23bda06b'/%3E%3Cpath d='M18 15v34m14-34v34m14-34v34' stroke='%23090909' stroke-width='8'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script src="music-core.js" defer></script>
+  <script src="audio.js" defer></script>
+  <script src="opera-tracks.js" defer></script>
+  <script src="tracks.js" defer></script>
+  <script src="midi-import.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <svg class="icon-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m9 5 11 7-11 7Z"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="m11 5-6 4H2v6h3l6 4Z"/><path d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" stroke-width="4"/></symbol>
+    <symbol id="i-loop" viewBox="0 0 24 24"><path d="M4 10V8a3 3 0 0 1 3-3h12m-3-3 3 3-3 3M20 14v2a3 3 0 0 1-3 3H5m3 3-3-3 3-3"/></symbol>
+  </defs></svg>
+  <div class="page">
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Felt home">felt<span>.</span></a>
+      <details id="theme-picker" class="theme-picker">
+        <summary aria-label="Choose visual theme"><span id="current-theme-swatch" class="theme-swatch swatch-ebony" aria-hidden="true"></span><span id="current-theme-name">Ebony</span><svg class="icon theme-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></summary>
+        <div class="theme-options" role="group" aria-label="Visual theme">
+        <button type="button" data-theme-choice="ebony" aria-label="Ebony theme" aria-pressed="true"><span class="theme-swatch swatch-ebony" aria-hidden="true"></span>Ebony</button>
+        <button type="button" data-theme-choice="burgundy" aria-label="Burgundy theme" aria-pressed="false"><span class="theme-swatch swatch-burgundy" aria-hidden="true"></span>Burgundy</button>
+        <button type="button" data-theme-choice="forest" aria-label="Forest theme" aria-pressed="false"><span class="theme-swatch swatch-forest" aria-hidden="true"></span>Forest</button>
+        <button type="button" data-theme-choice="ivory" aria-label="Ivory theme" aria-pressed="false"><span class="theme-swatch swatch-ivory" aria-hidden="true"></span>Ivory</button>
+        <button type="button" data-theme-choice="graphite" aria-label="Graphite theme" aria-pressed="false"><span class="theme-swatch swatch-graphite" aria-hidden="true"></span>Graphite</button>
+        <button type="button" data-theme-choice="amethyst" aria-label="Amethyst theme" aria-pressed="false"><span class="theme-swatch swatch-amethyst" aria-hidden="true"></span>Amethyst</button>
+        <button type="button" data-theme-choice="petrol" aria-label="Petrol theme" aria-pressed="false"><span class="theme-swatch swatch-petrol" aria-hidden="true"></span>Petrol</button>
+        <button type="button" data-theme-choice="copper" aria-label="Copper theme" aria-pressed="false"><span class="theme-swatch swatch-copper" aria-hidden="true"></span>Copper</button>
+        <button type="button" data-theme-choice="rose" aria-label="Rose theme" aria-pressed="false"><span class="theme-swatch swatch-rose" aria-hidden="true"></span>Rose</button>
+        <button type="button" data-theme-choice="porcelain" aria-label="Porcelain theme" aria-pressed="false"><span class="theme-swatch swatch-porcelain" aria-hidden="true"></span>Porcelain</button>
+        </div>
+      </details>
+    </header>
+    <main class="studio-layout">
+      <div class="studio-main">
+        <section class="piano" aria-label="Instrument studio">
+          <div class="piano-toolbar">
+            <div class="voice-options" role="group" aria-label="Instrument">
+              <button data-voice="felt" class="voice-button selected" aria-pressed="true">Felt Piano</button>
+              <button data-voice="grand" class="voice-button" aria-pressed="false">Concert Grand</button>
+              <button data-voice="electric" class="voice-button" aria-pressed="false">Electric Piano</button>
+              <button data-voice="organ" class="voice-button" aria-pressed="false">Church Organ</button>
+              <button data-voice="strings" class="voice-button" aria-pressed="false">Strings</button>
+              <button data-voice="synth" class="voice-button" aria-pressed="false">Warm Synth</button>
+              <button data-voice="marimba" class="voice-button" aria-pressed="false">Marimba</button>
+              <button data-voice="musicbox" class="voice-button" aria-pressed="false">Music Box</button>
+              <button data-voice="xylophone" class="voice-button" aria-pressed="false">Xylophone</button>
+              <button data-voice="vibraphone" class="voice-button" aria-pressed="false">Vibraphone</button>
+              <button data-voice="harp" class="voice-button" aria-pressed="false">Harp</button>
+              <button data-voice="flute" class="voice-button" aria-pressed="false">Flute</button>
+            </div>
+            <div class="mix-controls">
+              <label class="mix-control"><span>Reverb</span><input id="reverb" type="range" min="0" max="100" value="25" aria-label="Reverb"><output for="reverb" id="reverb-value">25%</output></label>
+              <label class="mix-control"><svg class="icon"><use href="#i-volume"/></svg><input id="volume" type="range" min="0" max="100" value="70" aria-label="Volume"><output for="volume" id="volume-value">70%</output></label>
+            </div>
+          </div>
+          <div class="piano-body">
+            <div class="piano-display"><div class="note-display"><span id="chord-display"></span><span id="active-notes" class="sr-only"></span></div><div class="keyboard-actions"><button id="stop-button" class="icon-button" aria-label="Stop all sound" title="Stop all sound (Pause/Break)"><svg class="icon"><use href="#i-stop"/></svg></button><button id="sustain-button" class="sustain-button" aria-pressed="false"><span class="status-dot"></span>Sustain</button></div></div>
+            <div class="keyboard-viewport" id="keyboard-viewport"><div id="keyboard" class="computer-keyboard" role="group" aria-label="Computer keyboard"></div></div>
+            <span id="audio-status" class="sr-only" role="status"></span>
+          </div>
+          <div class="piano-footer">
+            <div class="octave-control"><span>Octave</span><button class="icon-button" id="octave-down" aria-label="Lower octave" title="Lower octave (Page Down)"><svg class="icon"><use href="#i-minus"/></svg></button><output id="octave-value">4</output><button class="icon-button" id="octave-up" aria-label="Higher octave" title="Higher octave (Page Up)"><svg class="icon"><use href="#i-plus"/></svg></button></div>
+            <label class="labels-control"><input id="show-labels" type="checkbox" checked><span class="switch" aria-hidden="true"></span>Notes</label>
+          </div>
+        </section>
+        <section class="workspace" aria-label="Practice tools">
+          <article class="session-card tool-card">
+            <div class="card-heading"><h2>Recording</h2><span class="session-tag" id="session-tag"></span></div>
+            <div class="session-visual"><div id="session-wave" class="session-wave" aria-hidden="true"></div><span class="session-time" id="session-time">0:00</span></div>
+            <div class="session-actions"><button class="record-button" id="record-button"><span class="record-dot"></span><span id="record-label">Record</span></button><button class="quiet-button" id="playback-button" disabled><svg class="icon"><use href="#i-play"/></svg><span>Play back</span></button><button class="quiet-button export-button" id="export-button" disabled title="Save recording as MIDI"><svg class="icon"><use href="#i-download"/></svg><span>Save MIDI</span></button></div>
+          </article>
+          <article class="tempo-card tool-card">
+            <div class="card-heading"><h2>Metronome</h2><span class="beat-light" id="beat-light" aria-hidden="true"></span></div>
+            <div class="tempo-center"><button class="icon-button" id="tempo-down" aria-label="Decrease tempo"><svg class="icon"><use href="#i-minus"/></svg></button><label class="tempo-value"><input id="tempo" type="number" min="30" max="240" value="96" aria-label="Tempo in beats per minute"><span>BPM</span></label><button class="icon-button" id="tempo-up" aria-label="Increase tempo"><svg class="icon"><use href="#i-plus"/></svg></button></div>
+            <button id="metronome-button" class="metronome-button" aria-pressed="false"><span aria-hidden="true">♩</span><span>Start metronome</span></button>
+          </article>
+        </section>
+      </div>
+      <aside class="library-panel" aria-label="Example music library">
+        <div class="library-heading"><h2>Library</h2></div>
+        <div id="track-list" class="track-list" role="group" aria-label="Choose an example track"></div>
+        <div class="library-player">
+          <span class="sr-only" id="library-player-state" role="status"></span>
+          <h3 id="library-now-title">Für Elise</h3><p id="library-now-composer">Ludwig van Beethoven</p>
+          <input id="track-progress" type="range" min="0" max="1000" step="1" value="0" aria-label="Example track position">
+          <div class="track-time-labels"><span id="track-current-time">0:00</span><span id="track-duration">0:00</span></div>
+          <div class="track-controls"><button id="track-toggle" class="primary-button"><svg class="icon"><use href="#i-play"/></svg><span id="track-toggle-label">Play piece</span></button><button id="track-loop" class="icon-button" aria-label="Loop example track" aria-pressed="false"><svg class="icon"><use href="#i-loop"/></svg></button></div>
+        </div>
+        <section class="import-panel" aria-label="MIDI import">
+          <label class="import-button" for="midi-file">Open MIDI <span aria-hidden="true">＋</span></label><input id="midi-file" type="file" accept=".mid,.midi,audio/midi,audio/x-midi" class="file-input" aria-label="Open MIDI file"><p id="import-status" role="status" aria-live="polite"></p>
+        </section>
+      </aside>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

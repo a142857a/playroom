@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#10131e" />
+  <meta name="description" content="Skyward Bloom — ten sectors, three plane forms, one growing rank." data-i18n-content="Skyward Bloom — ten sectors, three plane forms, one growing rank.">
+  <title data-i18n="Skyward Bloom">Skyward Bloom</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="app-shell">
+  <header class="site-header">
+    <a class="wordmark" href="./" data-i18n="Skyward Bloom">Skyward Bloom</a>
+    <div class="header-actions">
+      <button id="languageBtn" class="language-button" type="button" aria-label="Switch to Simplified Chinese" title="Switch to Simplified Chinese"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-2.5 2.6-3.8 5.6-3.8 9s1.3 6.4 3.8 9M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9"/></svg></button>
+      <button id="guideBtn" class="guide-button" type="button" aria-haspopup="dialog" aria-controls="guideDialog" aria-label="Guide" data-i18n-aria-label="Guide" title="Guide" data-i18n-title="Guide"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.4 9a2.7 2.7 0 1 1 4.8 1.7c-.7.8-2.2 1.3-2.2 3"/><circle class="icon-dot" cx="12" cy="17.2" r=".9"/></svg></button>
+      <button id="fullscreenBtn" class="fullscreen-button" type="button" aria-label="Enter fullscreen" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path id="fullscreenIconPath" d="M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5"/></svg></button>
+      <button id="immersionBtn" class="immersion-button" type="button" aria-label="Enter immersion" data-i18n-aria-label="Enter immersion" title="Enter immersion" data-i18n-title="Enter immersion" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.8" y="2.8" width="14.4" height="18.4" rx="2"/><path d="M8 8h8v8H8z"/></svg></button>
+    </div>
+  </header>
+  <main class="cockpit">
+    <section class="game-column" id="flightPanel" aria-label="Game" data-i18n-aria-label="Game">
+      <div class="flight-hud"><div class="flight-summary" role="status"><span id="sectorValue">Outer Reach</span><span id="saveWarningFlight" hidden data-i18n="Progress not saved">Progress not saved</span></div></div>
+      <div class="game-frame">
+        <div class="game-viewport">
+        <canvas id="gameCanvas" width="720" height="900" tabindex="0" aria-label="Skyward Bloom. Drag or use arrow keys to steer. Weapons fire automatically. Only the light-blue core takes damage."><span aria-hidden="true" data-i18n="Your browser needs canvas support to play.">Your browser needs canvas support to play.</span></canvas>
+        <button id="exitImmersionBtn" type="button" aria-label="Exit immersion" data-i18n-aria-label="Exit immersion" data-i18n="Exit" hidden>Exit</button>
+        <span id="immersionSaveWarning" role="status" data-i18n="Progress not saved" hidden>Progress not saved</span>
+        <div id="overlay" class="game-overlay">
+          <div class="overlay-panel">
+            <h1 id="overlayTitle">Outer Reach</h1>
+            <p id="saveWarning" class="save-warning" role="status" hidden data-i18n="Progress is not being saved from this tab.">Progress is not being saved from this tab.</p>
+            <button id="launchBtn" class="launch-button" type="button" aria-describedby="overlayTitle">Play</button>
+          </div>
+        </div>
+        </div>
+        <div class="play-hud">
+          <div class="play-vitals">
+            <div class="hull-readout" id="hullReadout"><label for="hpBar" data-i18n="HP">HP</label><progress id="hpBar" max="100" value="100" aria-label="Player hull health" data-i18n-aria-label="Player hull health">100%</progress><span id="hpValue">100 / 100</span></div>
+            <div id="playPulseBadge" class="play-pulse-badge" role="status" aria-live="off" aria-label="Pulse: 1 of 3"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2"/><circle cx="12" cy="12" r="6"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3"/></svg><strong id="playPulseCount" aria-hidden="true">1/3</strong></div>
+          </div>
+          <div class="level-progress"><label for="levelProgress" class="visually-hidden" data-i18n="Progress">Progress</label><progress id="levelProgress" value="0" max="100" aria-label="Level completion" data-i18n-aria-label="Level completion">0%</progress><span id="progressValue">0%</span></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="weapon-panel" id="weaponPanel" aria-label="Plane and weapons" data-i18n-aria-label="Plane and weapons">
+      <div class="form-readout"><span id="sharedRank">Rank 1</span><span id="shieldStatus">Shield ready</span></div>
+      <div class="form-controls" role="group" aria-label="Plane forms" data-i18n-aria-label="Plane forms">
+        <button id="form-primary" class="form-button" type="button" aria-label="Spread form" aria-pressed="true" data-i18n-aria-label="Spread form"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4 39 24 61 45 39 39 37 57 32 53 27 57 25 39 3 45 25 24Z"/></svg><span data-i18n="Spread">Spread</span><kbd>1</kbd></button>
+        <button id="form-missiles" class="form-button" type="button" aria-label="Missiles form" aria-pressed="false" data-i18n-aria-label="Missiles form"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 5 39 29 48 18 54 23 52 52 41 46 32 58 23 46 12 52 10 23 16 18 25 29Z"/></svg><span data-i18n="Missiles">Missiles</span><kbd>2</kbd></button>
+        <button id="form-laser" class="form-button" type="button" aria-label="Laser form" aria-pressed="false" data-i18n-aria-label="Laser form"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 2 37 20 43 38 49 50 36 45 32 61 28 45 15 50 21 38 27 20Z"/></svg><span data-i18n="Laser">Laser</span><kbd>3</kbd></button>
+      </div>
+      <p class="form-status" id="formStatus" hidden></p>
+      <div class="touch-controls">
+        <button id="focusBtn" type="button" aria-pressed="false" aria-label="Focus movement" title="Focus movement" data-i18n="Focus" data-i18n-aria-label="Focus movement" data-i18n-title="Focus movement">Focus</button>
+        <button id="pulseBtn" class="pulse-button" type="button"><span data-i18n="Pulse">Pulse</span><span class="pulse-stock" aria-hidden="true"><strong id="pulseCount">1/3</strong><span class="pulse-pips" id="pulsePips"><i></i><i></i><i></i></span></span></button>
+        <button id="touchPauseBtn" type="button">Pause</button>
+      </div>
+      <div class="flight-actions" role="group" aria-label="Flight actions" data-i18n-aria-label="Flight actions">
+        <button id="soundBtn" type="button" aria-pressed="true">Sound on</button>
+        <button id="restartBtn" type="button" data-i18n="Retry">Retry</button>
+        <button id="wipeProgressBtn" type="button" data-i18n="Wipe all progress">Wipe all progress</button>
+      </div>
+      <p id="statusValue" class="visually-hidden" role="status">Standing by</p>
+      <section class="weapon-readout" id="weaponReadout" aria-labelledby="weaponStatsHeading"><h2 id="weaponStatsHeading" data-i18n="Weapon stats">Weapon stats</h2>
+        <div class="weapon-stats-list"><p><strong data-i18n="Spread">Spread</strong><span id="stats-primary"></span></p><p><strong data-i18n="Missiles">Missiles</strong><span id="stats-missiles"></span></p><p><strong data-i18n="Laser">Laser</strong><span id="stats-laser"></span></p><p><strong data-i18n="Shield">Shield</strong><span id="stats-shield"></span></p><p><strong data-i18n="Pulse">Pulse</strong><span id="stats-pulse"></span></p></div>
+        <p class="stats-note" data-i18n="Values include active boosts.">Values include active boosts.</p>
+      </section>
+    </aside>
+
+    <section class="hangar-panel" id="hangarPanel" aria-labelledby="campaignHeading">
+      <header class="hangar-intro"><h2 id="campaignHeading" tabindex="-1" data-i18n="Sectors">Sectors</h2><p id="campaignProgress">0 of 10 cleared</p></header>
+      <div class="stage-grid" id="stageGrid" role="group" aria-label="Campaign sectors" data-i18n-aria-label="Campaign sectors"></div>
+      <div class="mission-briefing">
+        <p id="bossPreview" class="boss-preview"></p><p id="stageRank" class="stage-rank">Starting rank 1</p>
+        <button id="stageLaunchBtn" class="launch-button" type="button">Play</button>
+      </div>
+    </section>
+  </main>
+  <div id="immersionControls" role="group" aria-label="Flight controls" data-i18n-aria-label="Flight controls" hidden>
+    <button id="immersionFormBtn" type="button" aria-label="Change form" data-i18n-aria-label="Change form">Spread ↻</button>
+    <button id="immersionFocusBtn" type="button" aria-pressed="false" data-i18n="Focus">Focus</button>
+    <button id="immersionPulseBtn" type="button">Pulse 1/3</button>
+    <button id="immersionPauseBtn" type="button" data-i18n="Pause">Pause</button>
+  </div>
+</div>
+<dialog id="guideDialog" class="guide-dialog" aria-labelledby="guideHeading">
+  <button id="closeGuideBtn" class="guide-close" type="button" aria-label="Close guide" autofocus data-i18n="Close" data-i18n-aria-label="Close guide">Close</button>
+  <section class="guide-panel">
+        <h2 id="guideHeading" data-i18n="Flight guide">Flight guide</h2>
+        <div class="guide-content">
+          <section class="guide-controls" aria-labelledby="controlsHeading">
+            <h3 id="controlsHeading" data-i18n="Controls">Controls</h3>
+            <p data-i18n="Weapons fire automatically.">Weapons fire automatically.</p>
+            <dl>
+              <div><dt data-i18n="Steer">Steer</dt><dd data-i18n="Drag on the playfield, or use WASD / arrow keys.">Drag on the playfield, or use WASD / arrow keys.</dd></div>
+              <div><dt data-i18n="Forms">Forms</dt><dd data-i18n="Tap a form or press 1–3. Switching pauses fire for 0.45 seconds; you can still steer.">Tap a form or press 1–3. Switching pauses fire for 0.45 seconds; you can still steer.</dd></div>
+              <div><dt data-i18n="Focus">Focus</dt><dd data-i18n="Tap Focus or hold Shift to steer slowly.">Tap Focus or hold Shift to steer slowly.</dd></div>
+              <div><dt data-i18n="Pulse">Pulse</dt><dd data-i18n="Tap Pulse or press X to clear bullets and damage enemies.">Tap Pulse or press X to clear bullets and damage enemies.</dd></div>
+              <div><dt data-i18n="Pause">Pause</dt><dd data-i18n="Tap Pause, or press Space or P. Use the same control to resume. Outside immersion, Esc also pauses or resumes.">Tap Pause, or press Space or P. Use the same control to resume. Outside immersion, Esc also pauses or resumes.</dd></div>
+              <div><dt data-i18n="Other actions">Other actions</dt><dd data-i18n="Retry or R restarts the sector. Sound or M toggles audio. Wipe all progress opens a confirmation.">Retry or R restarts the sector. Sound or M toggles audio. Wipe all progress opens a confirmation.</dd></div>
+              <div><dt data-i18n="Display">Display</dt><dd data-i18n="Top-right symbols switch language, open this Guide, enter fullscreen, and enter immersion. Exit or Esc leaves immersion. On short screens, Tab from the playfield opens immersion to keep keyboard controls visible.">Top-right symbols switch language, open this Guide, enter fullscreen, and enter immersion. Exit or Esc leaves immersion. On short screens, Tab from the playfield opens immersion to keep keyboard controls visible.</dd></div>
+            </dl>
+          </section>
+          <h3 data-i18n="Three forms">Three forms</h3>
+          <p><strong data-i18n="Spread:">Spread:</strong> <span data-i18n="bullets spread evenly across a fan. Move closer to land more hits.">bullets spread evenly across a fan. Move closer to land more hits.</span></p>
+          <p><strong data-i18n="Missiles:">Missiles:</strong> <span data-i18n="each missile picks a target and finds another if it is destroyed.">each missile picks a target and finds another if it is destroyed.</span></p>
+          <p><strong data-i18n="Laser:">Laser:</strong> <span data-i18n="a continuous beam that follows reachable enemies ahead. It switches away from destroyed or shielded targets. Higher ranks improve damage and tracking.">a continuous beam that follows reachable enemies ahead. It switches away from destroyed or shielded targets. Higher ranks improve damage and tracking.</span></p>
+          <h3 data-i18n="Pickups">Pickups</h3>
+          <div class="pickup-legend">
+            <div class="pickup-legend-item"><canvas class="pickup-icon" width="96" height="96" data-pickup="rank" data-amount="1" aria-hidden="true"></canvas><p><strong data-i18n="Rank +1">Rank +1</strong><span data-i18n="Improves every weapon, shield and pulse.">Improves every weapon, shield and pulse.</span></p></div>
+            <div class="pickup-legend-item"><canvas class="pickup-icon" width="96" height="96" data-pickup="pulse" aria-hidden="true"></canvas><p><strong data-i18n="Pulse ammo">Pulse ammo</strong><span data-i18n="Adds 1 pulse. Carry up to 3.">Adds 1 pulse. Carry up to 3.</span></p></div>
+            <div class="pickup-legend-item"><canvas class="pickup-icon" width="96" height="96" data-pickup="heal" aria-hidden="true"></canvas><p><strong data-i18n="Repair">Repair</strong><span data-i18n="Restores 50 HP, up to 100. Rare; only drops while hurt.">Restores 50 HP, up to 100. Rare; only drops while hurt.</span></p></div>
+            <div class="pickup-legend-item"><canvas class="pickup-icon" width="96" height="96" data-pickup="boost" data-boost="invincible" aria-hidden="true"></canvas><p><strong data-i18n="Invincibility">Invincibility</strong><span data-i18n="No damage for 12 seconds.">No damage for 12 seconds.</span></p></div>
+            <div class="pickup-legend-item"><canvas class="pickup-icon" width="96" height="96" data-pickup="boost" data-boost="damage" aria-hidden="true"></canvas><p><strong data-i18n="Triple damage">Triple damage</strong><span data-i18n="Deal 3× damage for 15 seconds.">Deal 3× damage for 15 seconds.</span></p></div>
+            <div class="pickup-legend-item"><canvas class="pickup-icon" width="96" height="96" data-pickup="boost" data-boost="homing" aria-hidden="true"></canvas><p><strong data-i18n="Homing">Homing</strong><span data-i18n="For 18 seconds, Spread bullets seek enemies and Laser curves through up to eight enemies ahead.">For 18 seconds, Spread bullets seek enemies and Laser curves through up to eight enemies ahead.</span></p></div>
+          </div>
+          <h3 data-i18n="Bosses">Bosses</h3>
+          <p><strong data-i18n="Meteors:">Meteors:</strong> <span data-i18n="fall in staggered showers without a warning. Fly between the rocks.">fall in staggered showers without a warning. Fly between the rocks.</span></p>
+          <p><strong data-i18n="Phase shield:">Phase shield:</strong> <span data-i18n="bosses ignore damage for 3 seconds between phases. Keep dodging.">bosses ignore damage for 3 seconds between phases. Keep dodging.</span></p>
+          <p><strong data-i18n="Touch targets:">Touch targets:</strong> <span data-i18n="touch both green rings, then attack the exposed core for 6 seconds. Watch for nearby bullets.">touch both green rings, then attack the exposed core for 6 seconds. Watch for nearby bullets.</span></p>
+          <p><strong data-i18n="Rotating lasers:">Rotating lasers:</strong> <span data-i18n="watch the warning lines, then follow the beams or stay inside the central circle. Up to 12 beams; other guns pause.">watch the warning lines, then follow the beams or stay inside the central circle. Up to 12 beams; other guns pause.</span></p>
+          <p><strong data-i18n="Walls:">Walls:</strong> <span data-i18n="fly through each opening. Later bosses send up to five walls with narrower gaps.">fly through each opening. Later bosses send up to five walls with narrower gaps.</span></p>
+          <p><strong data-i18n="Sweeping laser:">Sweeping laser:</strong> <span data-i18n="moves sideways after a warning. Dodge through the marked gap.">moves sideways after a warning. Dodge through the marked gap.</span></p>
+          <p><strong data-i18n="Homing fireballs:">Homing fireballs:</strong> <span data-i18n="purple fireballs keep chasing you. Orange fireballs turn briefly, then fly straight. Avoid the solid head; the flame trail cannot hurt you.">purple fireballs keep chasing you. Orange fireballs turn briefly, then fly straight. Avoid the solid head; the flame trail cannot hurt you.</span></p>
+          <h3 data-i18n="Keep your progress">Keep your progress</h3>
+          <p data-i18n="Starting ranks are 1, 6, 11, and so on. Continue to the next sector to keep a higher earned rank. Replays and retries use the fixed starting rank. Failed attempts lose their upgrades. Remaining pulses carry into the next sector. New runs, replays and retries start with 1 pulse.">Starting ranks are 1, 6, 11, and so on. Continue to the next sector to keep a higher earned rank. Replays and retries use the fixed starting rank. Failed attempts lose their upgrades. Remaining pulses carry into the next sector. New runs, replays and retries start with 1 pulse.</p>
+          <h3 data-i18n="Stay alive">Stay alive</h3>
+          <p data-i18n="Only the light-blue core takes hits. Shields automatically block bullets and fireballs. Lasers, walls, meteors, and all enemy collisions bypass shields.">Only the light-blue core takes hits. Shields automatically block bullets and fireballs. Lasers, walls, meteors, and all enemy collisions bypass shields.</p>
+          <p data-i18n="Pulses clear bullets and deal equal damage to enemies and bosses, but cannot pierce boss shields.">Pulses clear bullets and deal equal damage to enemies and bosses, but cannot pierce boss shields.</p>
+        </div>
+  </section>
+</dialog>
+<dialog id="resetDialog" aria-labelledby="resetHeading" aria-describedby="resetDescription"><form method="dialog"><h2 id="resetHeading" data-i18n="Wipe all progress?">Wipe all progress?</h2><p id="resetDescription" data-i18n="Erase all progress saved in this browser and return to sector 1? This cannot be undone.">Erase all progress saved in this browser and return to sector 1? This cannot be undone.</p><p id="resetError" class="dialog-error" role="alert" hidden data-i18n="Could not erase saved progress. Check browser storage and try again.">Could not erase saved progress. Check browser storage and try again.</p><div class="dialog-actions"><button value="cancel" autofocus data-i18n="Cancel">Cancel</button><button id="confirmResetBtn" value="reset" class="danger-button" data-i18n="Wipe &amp; restart">Wipe & restart</button></div></form></dialog>
+<script type="module" src="game.js"></script>
+</body>
+</html>
